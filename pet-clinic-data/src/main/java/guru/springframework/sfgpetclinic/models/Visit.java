@@ -10,7 +10,7 @@ public class Visit extends BaseEntity {
     private String description;
 
     public Visit(Long id, LocalDate date, String description, Pet pet) {
-        super(id);
+//        super(id);
         this.date = date;
         this.description = description;
         this.pet = pet;
