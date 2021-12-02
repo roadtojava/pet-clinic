@@ -4,7 +4,7 @@ package guru.springframework.sfgpetclinic.models;
 public class PetType extends BaseEntity {
 
     public PetType(Long id, String name) {
-        super(id);
+//        super(id);
         this.name = name;
     }
 
