@@ -3,13 +3,20 @@ package guru.springframework.sfgpetclinic.models;
 
 public class PetType extends BaseEntity {
 
-    public PetType(Long id, String name) {
+    public PetType() {
 //        super(id);
-        this.name = name;
+//        this.name = name;
     }
 
     private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {
