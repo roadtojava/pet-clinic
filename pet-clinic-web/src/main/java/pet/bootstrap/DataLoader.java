@@ -1,43 +1,51 @@
 package pet.bootstrap;
 
-import guru.springframework.sfgpetclinic.models.*;
-import guru.springframework.sfgpetclinic.services.OwnerService;
-import guru.springframework.sfgpetclinic.services.PetTypeService;
-import guru.springframework.sfgpetclinic.services.SpecialityService;
-import guru.springframework.sfgpetclinic.services.VetService;
+import guru.springframework.sfgpetclinic.model.*;
+import guru.springframework.sfgpetclinic.services.*;
+import guru.springframework.sfgpetclinic.services.map.VetMapService;
+import guru.springframework.sfgpetclinic.services.springdatajpa.VetSDJpaService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+/**
+ * Created by jt on 7/25/18.
+ */
 @Component
 public class DataLoader implements CommandLineRunner {
 
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
-    private final SpecialityService specialtyService;
+    private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
+                      SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
-//    public DataLoader() {
-//        this.ownerService =new OwnerServiceMap();
-//        this.vetService = new VetServiceMap();
-//    }
 
     @Override
     public void run(String... args) throws Exception {
+
         int count = petTypeService.findAll().size();
-        if (count == 0) {
+
+        if (count == 0 ){
             loadData();
         }
     }
 
     private void loadData() {
+        if (vetService instanceof VetSDJpaService){
+            System.out.println("jpa profile");
+        }else if(vetService instanceof VetMapService){
+            System.out.println("map profile");
+        }
 
         PetType dog = new PetType();
         dog.setName("Dog");
@@ -46,7 +54,6 @@ public class DataLoader implements CommandLineRunner {
         PetType cat = new PetType();
         cat.setName("Cat");
         PetType savedCatPetType = petTypeService.save(cat);
-        System.out.println("Loaded Pettypes....");
 
         Speciality radiology = new Speciality();
         radiology.setDescription("Radiology");
@@ -92,12 +99,12 @@ public class DataLoader implements CommandLineRunner {
 
         ownerService.save(owner2);
 
-//        Visit catVisit = new Visit();
-//        catVisit.setPet(fionasCat);
-//        catVisit.setDate(LocalDate.now());
-//        catVisit.setDescription("Sneezy Kitty");
-//
-//        visitService.save(catVisit);
+        Visit catVisit = new Visit();
+        catVisit.setPet(fionasCat);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Sneezy Kitty");
+
+        visitService.save(catVisit);
 
         System.out.println("Loaded Owners....");
 
