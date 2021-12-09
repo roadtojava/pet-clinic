@@ -1,9 +1,6 @@
 package guru.springframework.sfgpetclinic.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -17,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "owners")
+@ToString
 public class Owner extends Person {
 
     @Builder
